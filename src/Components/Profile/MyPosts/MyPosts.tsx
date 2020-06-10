@@ -5,7 +5,7 @@ import {Field, reduxForm} from "redux-form";
 import {maxLengthCreator} from "../../../features/validates/validates";
 import {TextAria} from "../../../features/formControls/formControls";
 
-const maxLength=maxLengthCreator(50)
+const maxLength=maxLengthCreator(50);
 
 const MyPosts = React.memo((props:any) => {
     let {addPost, posts} = props;

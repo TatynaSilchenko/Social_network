@@ -5,6 +5,7 @@ import {profileAPI} from "../dal/apiSdk";
 const SET_USER_PROFILE = 'SN/PROFILEPAGE/SET_USER_PROFILE ';
 const SET_STATUS = 'SN/PROFILEPAGE/SET_STATUS ';
 const ADD_POST = 'SN/PROFILEPAGE/ADD-POST';
+const DELETE_POST = 'SN/PROFILEPAGE/DELETE_POST';
 
 let initialState = {
     profile: null,
@@ -37,6 +38,11 @@ const profileReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 status: action.status
+            };
+        case DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts.filter(p=>p.id!==action.id)
             };
         default:
             return state
@@ -76,4 +82,5 @@ export const updateUserStatus = (status: string) => (dispatch: Function) => {
 export const setUserProfile = (profile: Object) => ({type: SET_USER_PROFILE, profile});
 export const setStatus = (status: string) => ({type: SET_STATUS, status});
 export const addPost = (postText:string) => ({type: ADD_POST,postText});
+export const deletePost = (id:number) => ({type: DELETE_POST,id});
 export default profileReducer;
