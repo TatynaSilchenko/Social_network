@@ -1,0 +1,42 @@
+
+.user{
+    display: grid;
+    grid-template-areas:
+            "b b b"
+            "f n e"
+            "f a a"
+            "f c c"
+            "f d d"
+            "f x x";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 4fr 10fr 2fr
+}
+.backGroundImg{
+    grid-area:b ;
+}
+.ava{
+    grid-area:f ;
+}
+.nameUser{
+    grid-area:n ;
+
+}
+.editButton{
+    grid-area:e;
+    margin:10%;
+}
+
+
+.aboutMe{
+    grid-area:a;
+}
+.contacts{
+    grid-area:c ;
+    margin: 3%;
+}
+.lookingForAJob{
+    grid-area:d ;
+}
+.lookingForAJobDescription{
+    grid-area:x ;
+}

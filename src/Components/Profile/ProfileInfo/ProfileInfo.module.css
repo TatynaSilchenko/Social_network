@@ -1,0 +1,23 @@
+
+.avatar img{
+    margin-top: -100px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border-bottom-style: solid;
+    border-bottom-color: white;
+
+}
+.backGroundImg{
+    height: 150px;
+    width: 100%;
+
+}
+.descriptionBlock{
+    display: grid;
+    padding: 10px;
+    grid-template-columns: 2fr 10fr;
+}
+.userName{
+    color:#27aae1;
+}
