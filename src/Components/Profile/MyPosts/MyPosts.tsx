@@ -7,7 +7,7 @@ import {TextAria} from "../../../features/formControls/formControls";
 
 const maxLength=maxLengthCreator(50)
 
-const MyPosts = (props:any) => {
+const MyPosts = React.memo((props:any) => {
     let {addPost, posts} = props;
     let postsElements = posts.map((p:any) =>
         <Post key={p.id} post={p.message} likeCount={p.likeCount}/>);
@@ -30,7 +30,7 @@ const MyPosts = (props:any) => {
             </div>
         </div>
     )
-};
+});
 
 const AddPostsForm=(props:any)=>{
     return(
