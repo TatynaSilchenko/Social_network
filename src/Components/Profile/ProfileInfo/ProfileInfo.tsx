@@ -1,5 +1,4 @@
 import React from 'react';
-// import ProfileStatus from "../Status/ProfileStatus";
 import Preloader from "../../common/Preloader/Preloader";
 import styles from "./ProfileInfo.module.css"
 import ProfileStatusHook from "../Status/ProfileStatusHook";
@@ -37,8 +36,7 @@ const ProfileInfo = (props: IProps) => {
                         </div>
                     </div>
                     {/*{(isOwner) && (!editMode) && <span className={styles.editButton} onClick={onEditClick}>Edit</span>}*/}
-                    <ProfileStatusHook profile={profile}
-                                   userInfo={props.userInfo} isAuth={props.isAuth}
+                    <ProfileStatusHook
                                    status={props.status} updateUserStatus={props.updateUserStatus} />
 
                     <h2 className={styles.nameUser}> {profile.fullName}</h2>
