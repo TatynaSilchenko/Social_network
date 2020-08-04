@@ -8,7 +8,6 @@ import {
     unfollowUser
 } from "../../redux/usersReduser";
 import Preloader from "../common/Preloader/Preloader";
-import {withAuthRedirect} from "../../hoc/WithAythRedirect";
 import {compose} from "redux";
 import {
     getCurrentPage, getFollowingInProgress,
