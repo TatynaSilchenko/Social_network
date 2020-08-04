@@ -1,13 +1,7 @@
-import React from 'react';
-import './App.css';
-
-// import {BrowserRouter, Route, withRouter} from "react-router-dom";
-import DialogsContainer from "./Components/Dialog/DialogsConteiner";
+import React, {Suspense} from "react";
+import "./App.css";
 import LoginContainer from "./Components/Login/LoginConteiner";
 import HeaderContainer from "./Components/Header/HeaderContainer";
-import UsersContainer from "./Components/Users/UsersConteiner";
-import UserContainer from "./Components/Users/UserContainer";
-import ProfileContainer from "./Components/Profile/ProfileContainer";
 import {compose} from "redux";
 import {connect, Provider} from "react-redux";
 import {initializeApp} from "./redux/appReduser";
@@ -17,6 +11,11 @@ import Navbar from "./Components/Nav/Navbar";
 import {BrowserRouter} from "react-router-dom";
 import {Route, withRouter} from "react-router";
 
+const DialogsContainer=React.lazy(()=>import("./Components/Dialog/DialogsConteiner"))
+const ProfileContainer=React.lazy(()=>import("./Components/Profile/ProfileContainer"))
+const UsersContainer=React.lazy(()=>import("./Components/Users/UsersConteiner"))
+// const UserContainer=React.lazy(()=>import("./Components/Users/UserContainer"))
+
 // interface IProps{
 //     initialised: ()=>void,
 //     location:any,
@@ -24,27 +23,30 @@ import {Route, withRouter} from "react-router";
 // }
 
 class App extends React.Component {
-    componentDidMount(){
+    componentDidMount() {
         this.props.initializeApp()
     }
 
     render() {
 
-if (!this.props.initialized) return <Preloader/>
+        if (!this.props.initialized) return <Preloader/>
         return (
             <div className={'app-wrapper'}>
                 <HeaderContainer/>
                 <Navbar friends={this.props.store}/>
                 <div className={'app-wrapper-content'}>
+                    <Suspense fallback={<Preloader/>}>
                     <Route path='/profile/:userId?' render={() =>
                         <ProfileContainer/>}/>
+                        <Route exact path='/profile' render={() =>
+                            <ProfileContainer/>}/>
                     <Route path='/dialogs' render={() =>
                         <DialogsContainer/>}/>
                     <Route exact path='/users' render={() => <UsersContainer/>}/>
                     <Route exact path='/login' render={() => <LoginContainer/>}/>
-                    <Route path='/users/:userId' render={() => <>
-                        <UserContainer/></>}/>
-
+                    {/*<Route path='/users/:userId' render={() => <>*/}
+                    {/*    <UserContainer/></>}/>*/}
+                    </Suspense>
                 </div>
             </div>
 
@@ -52,20 +54,21 @@ if (!this.props.initialized) return <Preloader/>
 
     }
 }
-const mapStateToProps=(state)=>(
+
+const mapStateToProps = (state) => (
     {
-        initialized:state.app.initialized
+        initialized: state.app.initialized
     }
 )
-let AppContainer= compose(
+let AppContainer = compose(
     withRouter,
-    connect(mapStateToProps,{initializeApp})
-) (App);
+    connect(mapStateToProps, {initializeApp})
+)(App);
 
-const MainApp=(props)=>{
+const MainApp = (props) => {
     return <BrowserRouter>
         <Provider store={store}>
-        <AppContainer store={store}/>
+            <AppContainer store={store}/>
         </Provider>
     </BrowserRouter>
 }
