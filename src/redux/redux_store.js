@@ -23,9 +23,9 @@ let combinedReducers = combineReducers({
     form: formReducer,
     app:appReducer
 });
-//@ts-ignore
-const composeEnhancer: typeof compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     let store = createStore(combinedReducers,
         composeEnhancer(applyMiddleware(thunk)));
 

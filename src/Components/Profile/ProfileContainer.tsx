@@ -27,7 +27,6 @@ interface IProps extends RouteComponentProps<any> {
 
 class ProfileContainer extends Component<IProps> {
     componentDidMount(): void {
-        debugger
         let userIdFromUrl = this.props.match.params.userId;
         if (!userIdFromUrl) {
             userIdFromUrl = this.props.autorizedId

@@ -9,12 +9,12 @@ export const  TextAria=(props:any)=>{
         <div>{hasError&&<span> {meta.error}</span>}</div>
     </div>
 }
-export let Input = ({input, meta, ...props}:any) => {
-    const hasError=meta.touched&&meta.error
+export let Input = ({input, meta:{touched,error,warning}, ...props}:any) => {
+    const hasError=touched&&error
     return <div className={styles.formControl+" "+(hasError?styles.error:'')}>
         <input {...input} type={props.type} {...props} />
 
-        {hasError && <span> {meta.error}</span>}
-        {meta.touched && meta.warning && <span style={{color: 'orange'}}> {meta.warning}</span>}
+        {hasError && <span> {error}</span>}
+        {touched && warning && <span style={{color: 'orange'}}> {warning}</span>}
     </div>
 };

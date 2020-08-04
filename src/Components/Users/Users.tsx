@@ -1,40 +1,29 @@
 import React from 'react';
 import style from './users.module.css'
 import {NavLink} from "react-router-dom";
+import Paginator from "../common/Paginator/Paginator";
+
 
 interface IProps {
-    users:any[],
-    followingInProgress:[],
-    totalUsersCount:number,
-    pageSize:number,
-    currentPage:number,
-    onPagesChanged:Function,
-    unfollowUser:Function,
-    followUser:Function
+    users: any[],
+    followingInProgress: [],
+    totalUsersCount: number,
+    pageSize: number,
+    currentPage: number,
+    onPagesChanged: Function,
+    unfollowUser: Function,
+    followUser: Function
 }
 
 let Users = (props: IProps) => {
-    let {users,followingInProgress} = props;
-    let pageCount: number = Math.ceil(props.totalUsersCount / props.pageSize);
-    let pages: any[] = [];
-    for (let i = 1; i <= pageCount; i++) {
-        pages.push(i);
-    }
+    let {users, followingInProgress} = props;
 
-    let selectedPage = (p: any) => {
-        if (props.currentPage === p) {
-            return style.selectedPage
-        }
-    }
     return <div>
 
-        <div>
-            {pages.map((p: number) => {
-                return <span className={selectedPage(p)} onClick={() => {
-                    props.onPagesChanged(p)
-                }}>{p} </span>
-            })}
-        </div>
+        <Paginator totalItemsCount={props.totalUsersCount}
+                   pageSize={props.pageSize} currentPage={props.currentPage}
+                   onPagesChanged={props.onPagesChanged} portionSize={10}/>
+
         <div className={style.usersList}>
             {
                 !users.length && <span>users not found</span>
@@ -52,11 +41,11 @@ let Users = (props: IProps) => {
 
                 <div>
                     {u.followed
-                        ? <button disabled={followingInProgress.some((id:number)=>id===u.id)} onClick={() => {
+                        ? <button disabled={followingInProgress.some((id: number) => id === u.id)} onClick={() => {
                             props.unfollowUser(u.id)
                         }}> Unfollow</button>
 
-                        : <button disabled={followingInProgress.some((id:number)=>id===u.id)} onClick={() => {
+                        : <button disabled={followingInProgress.some((id: number) => id === u.id)} onClick={() => {
                             props.followUser(u.id)
                         }}>Follow</button>}
                 </div>
@@ -68,10 +57,6 @@ let Users = (props: IProps) => {
                 </div>
                     <div>{u.status}</div>
                 </span>
-                        {/*<span>*/}
-                        {/*    <div>{'u.location.city'}</div>*/}
-                        {/*    <div>{'u.location.country'}</div>*/}
-                        {/*</span>*/}
             </span>
                 </div>)}
 
