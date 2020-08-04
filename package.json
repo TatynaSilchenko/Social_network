@@ -1,7 +1,7 @@
 {
   "name": "my_project1",
   "version": "0.1.0",
-  "homepage": "https://tatynasilchenko.github.io/Social_network/",
+  "homepage": "https://tatynasilchenko.github.io/Social_network",
   "private": true,
   "dependencies": {
     "@types/jest": "^24.0.15",
