@@ -1,7 +1,7 @@
 {
+  "homepage": "https://tatynasilchenko.github.io/Social_network",
   "name": "my_project1",
   "version": "0.1.0",
-  "homepage": "https://tatynasilchenko.github.io/Social_network",
   "private": true,
   "dependencies": {
     "@types/jest": "^24.0.15",
@@ -24,12 +24,12 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

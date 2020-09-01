@@ -8,12 +8,12 @@ import {initializeApp} from "./redux/appReduser";
 import Preloader from "./Components/common/Preloader/Preloader";
 import store from "./redux/redux_store";
 import Navbar from "./Components/Nav/Navbar";
-import {BrowserRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 import {Route, withRouter} from "react-router";
 
-const DialogsContainer=React.lazy(()=>import("./Components/Dialog/DialogsConteiner"))
-const ProfileContainer=React.lazy(()=>import("./Components/Profile/ProfileContainer"))
-const UsersContainer=React.lazy(()=>import("./Components/Users/UsersConteiner"))
+const DialogsContainer = React.lazy(() => import("./Components/Dialog/DialogsConteiner"))
+const ProfileContainer = React.lazy(() => import("./Components/Profile/ProfileContainer"))
+const UsersContainer = React.lazy(() => import("./Components/Users/UsersConteiner"))
 // const UserContainer=React.lazy(()=>import("./Components/Users/UserContainer"))
 
 // interface IProps{
@@ -36,16 +36,14 @@ class App extends React.Component {
                 <Navbar friends={this.props.store}/>
                 <div className={'app-wrapper-content'}>
                     <Suspense fallback={<Preloader/>}>
-                    <Route path='/profile/:userId?' render={() =>
-                        <ProfileContainer/>}/>
-                        <Route exact path='/profile' render={() =>
+                        <Route path='/profile/:userId?' render={() =>
                             <ProfileContainer/>}/>
-                    <Route path='/dialogs' render={() =>
-                        <DialogsContainer/>}/>
-                    <Route exact path='/users' render={() => <UsersContainer/>}/>
-                    <Route exact path='/login' render={() => <LoginContainer/>}/>
-                    {/*<Route path='/users/:userId' render={() => <>*/}
-                    {/*    <UserContainer/></>}/>*/}
+                        <Route path='/dialogs' render={() =>
+                            <DialogsContainer/>}/>
+                        <Route exact path='/users' render={() => <UsersContainer/>}/>
+                        <Route exact path='/login' render={() => <LoginContainer/>}/>
+                        {/*<Route path='/users/:userId' render={() => <>*/}
+                        {/*    <UserContainer/></>}/>*/}
                     </Suspense>
                 </div>
             </div>
@@ -66,10 +64,10 @@ let AppContainer = compose(
 )(App);
 
 const MainApp = (props) => {
-    return <BrowserRouter>
+    return <HashRouter>
         <Provider store={store}>
             <AppContainer store={store}/>
         </Provider>
-    </BrowserRouter>
+    </HashRouter>
 }
 export default MainApp;
