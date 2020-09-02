@@ -11,50 +11,59 @@ export const usersAPI = {
         return instance.get(`users?page=${pageNumber}&count=${pageSize}`,)
             .then(response => response.data)
     },
-    followUser(userId:number){
+    followUser(userId: number) {
         return instance.post(`follow/${userId}`)
             .then((response) => response.data)
     },
-    unfollowUser(userId:number){
+    unfollowUser(userId: number) {
         return instance.delete(`follow/${userId}`,)
             .then((response) => response.data)
     },
-    };
-export const profileAPI={
-    getProfile(userIdFromUrl:number){
+};
+export const profileAPI = {
+    getProfile(userIdFromUrl: number) {
         return instance.get(`profile/${userIdFromUrl}`)
-            .then((response) =>response.data)
+            .then((response) => response.data)
     },
-    getProfileStatus(userId:number){
-        return instance.get(`/profile/status/`+userId)
-            .then((response) =>response.data)
+    getProfileStatus(userId: number) {
+        return instance.get(`/profile/status/` + userId)
+            .then((response) => response.data)
     },
-    updateProfileStatus(status:string){
-        return instance.put(`/profile/status`,{status})
-            .then((response) =>response.data)
+    updateProfileStatus(status: string) {
+        return instance.put(`/profile/status`, {status})
+            .then((response) => response.data)
+    },
+    savePhoto(photoFile: any) {
+        let formData = new FormData();
+        formData.append("image", photoFile);
+        return instance.put("/profile/photo", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        )
     }
-
 }
 
- export const authAPI={
-     postLogin(email:string,password:string,rememberMe:boolean=false,captcha:any){
-     return instance.post('auth/login', {
-         email,
-         password,
-         rememberMe,
-         captcha
-     }).then((response) =>response.data)
-     },
-     getCaptcha(){
-        return  instance.get('security/get-captcha-url')
-             .then((response) =>response.data)
-     },
-     authMe(){
-         return instance.get('auth/me')
-             .then((response) =>response.data)
-     },
-     logOut(){
-         return instance.post('auth/logout')
-             .then((response) =>response.data)
-     }
- }
+export const authAPI = {
+    postLogin(email: string, password: string, rememberMe: boolean = false, captcha: any) {
+        return instance.post('auth/login', {
+            email,
+            password,
+            rememberMe,
+            captcha
+        }).then((response) => response.data)
+    },
+    getCaptcha() {
+        return instance.get('security/get-captcha-url')
+            .then((response) => response.data)
+    },
+    authMe() {
+        return instance.get('auth/me')
+            .then((response) => response.data)
+    },
+    logOut() {
+        return instance.post('auth/logout')
+            .then((response) => response.data)
+    }
+}

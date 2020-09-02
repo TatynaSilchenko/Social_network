@@ -6,10 +6,11 @@ const SET_USER_PROFILE = 'SN/PROFILEPAGE/SET_USER_PROFILE ';
 const SET_STATUS = 'SN/PROFILEPAGE/SET_STATUS ';
 const ADD_POST = 'SN/PROFILEPAGE/ADD-POST';
 const DELETE_POST = 'SN/PROFILEPAGE/DELETE_POST';
+const SAVE_PHOTO_SUCCESS = 'SN/PROFILEPAGE/SAVE_PHOTO_SUCCESS';
 
 let initialState = {
-    profile: null,
-    status:'',
+    profile: {},
+    status: '',
     posts: [
         {id: 1, message: 'Good night', likeCount: 123},
         {id: 2, message: 'This good idea', likeCount: 12},
@@ -23,9 +24,11 @@ const profileReducer = (state = initialState, action: any) => {
         case ADD_POST : {
             return {
                 ...state,
-                posts: [{id: 5,
+                posts: [{
+                    id: 5,
                     message: action.postText,
-                    likeCount: 0},
+                    likeCount: 0
+                },
                     ...state.posts],
             };
         }
@@ -42,7 +45,12 @@ const profileReducer = (state = initialState, action: any) => {
         case DELETE_POST:
             return {
                 ...state,
-                posts: state.posts.filter(p=>p.id!==action.id)
+                posts: state.posts.filter(p => p.id !== action.id)
+            };
+        case SAVE_PHOTO_SUCCESS:
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
             };
         default:
             return state
@@ -70,17 +78,26 @@ export const updateUserStatus = (status: string) => (dispatch: Function) => {
 
     profileAPI.updateProfileStatus(status)
         .then((data) => {
-            if(data.resultCode===0){
-            dispatch(setStatus(status));
+            if (data.resultCode === 0) {
+                dispatch(setStatus(status));
             } else {
                 alert(data.messages)
             }
             // dispatch(togleIsFetching(false));
         })
 };
+export const savePhoto = (photo: any) => async (dispatch: Function) => {
+    const response = await profileAPI.savePhoto(photo);
+
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.data.photos));
+    }
+
+};
 
 export const setUserProfile = (profile: Object) => ({type: SET_USER_PROFILE, profile});
 export const setStatus = (status: string) => ({type: SET_STATUS, status});
-export const addPost = (postText:string) => ({type: ADD_POST,postText});
-export const deletePost = (id:number) => ({type: DELETE_POST,id});
+export const addPost = (postText: string) => ({type: ADD_POST, postText});
+export const deletePost = (id: number) => ({type: DELETE_POST, id});
+export const savePhotoSuccess = (photos: any) => ({type: SAVE_PHOTO_SUCCESS, photos});
 export default profileReducer;

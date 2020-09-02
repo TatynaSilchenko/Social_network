@@ -5,10 +5,12 @@ import ProfileStatusHook from "../Status/ProfileStatusHook";
 
 interface IProps {
     profile: any,
-    status:string,
-    updateUserStatus:Function,
-    isAuth:Function,
-    userInfo:any
+    status: string,
+    updateUserStatus: Function,
+    isAuth: Function,
+    userInfo: any,
+    isOwner: boolean,
+    savePhoto:Function;
 }
 
 const ProfileInfo = (props: IProps) => {
@@ -18,26 +20,31 @@ const ProfileInfo = (props: IProps) => {
         </div>
     }
     let {profile} = props;
+    let defaultPhoto = "https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png";
 
+    const onSavePhoto=(e:any)=>{
+        if (e.target.files.length>0){
+            props.savePhoto(e.target.files[0]);
+        }
+
+    }
     return (
         <div>
             <div>
                 <img className={styles.backGroundImg}
                      src={'https://bankoboev.ru/storage/thumbnail/bankoboev.ru-263464.jpg'}/>
-            </div>
-            {(profile) ? <div className={styles.user}>
 
+            </div>
+            {(profile.photos) ? <div className={styles.user}>
                     <div className={styles.descriptionBlock}>
                         <div className={styles.avatar}>
-                            {(profile.photos.large)
-                                ? <img src={profile.photos.large}/>
-                                : <img
-                                    src="https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png"/>}
+                            <img src={profile.photos.large
+                            || defaultPhoto}/>
+                            {props.isOwner && <input className={styles.changePhoto} type="file" onChange={onSavePhoto}/>}
                         </div>
                     </div>
-                    {/*{(isOwner) && (!editMode) && <span className={styles.editButton} onClick={onEditClick}>Edit</span>}*/}
                     <ProfileStatusHook
-                                   status={props.status} updateUserStatus={props.updateUserStatus} />
+                        status={props.status} updateUserStatus={props.updateUserStatus}/>
 
                     <h2 className={styles.nameUser}> {profile.fullName}</h2>
                     <div className={styles.aboutMe}>
