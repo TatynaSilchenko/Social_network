@@ -20,5 +20,5 @@ it("New post message should 'hi'",()=>{
 it("Post should be remove",()=>{
     let action=deletePost(2);
     let newState=profileReducer(state,action);
-    expect(newState.posts.length).toBe(3)
+    expect(newState.posts.length).toBe(3 )
 });

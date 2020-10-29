@@ -13,7 +13,6 @@ let Login = (props: any) => {
     }
 
     let onhandleSubmit = (values: any) => {
-        debugger
         props.loginT(values.email, values.password, values.rememberMe, values.captchaValue);
     }
 
