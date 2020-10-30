@@ -8,19 +8,13 @@ import {initializeApp} from "./redux/appReduser";
 import Preloader from "./Components/common/Preloader/Preloader";
 import store from "./redux/redux_store";
 import Navbar from "./Components/Nav/Navbar";
-import {HashRouter} from "react-router-dom";
+import {HashRouter, Redirect, Switch} from "react-router-dom";
 import {Route, withRouter} from "react-router";
 
 const DialogsContainer = React.lazy(() => import("./Components/Dialog/DialogsConteiner"))
 const ProfileContainer = React.lazy(() => import("./Components/Profile/ProfileContainer"))
 const UsersContainer = React.lazy(() => import("./Components/Users/UsersConteiner"))
-// const UserContainer=React.lazy(()=>import("./Components/Users/UserContainer"))
 
-// interface IProps{
-//     initialised: ()=>void,
-//     location:any,
-//     store:any
-// }
 
 class App extends React.Component {
     componentDidMount() {
@@ -36,14 +30,17 @@ class App extends React.Component {
                 <Navbar friends={this.props.store}/>
                 <div className={'app-wrapper-content'}>
                     <Suspense fallback={<Preloader/>}>
-                        <Route path='/profile/:userId?' render={() =>
-                            <ProfileContainer/>}/>
-                        <Route path='/dialogs' render={() =>
-                            <DialogsContainer/>}/>
-                        <Route exact path='/users' render={() => <UsersContainer/>}/>
-                        <Route exact path='/login' render={() => <LoginContainer/>}/>
-                        {/*<Route path='/users/:userId' render={() => <>*/}
-                        {/*    <UserContainer/></>}/>*/}
+                        <Switch>
+                            <Route exact path='/'
+                                   render={() => <Redirect to={"/profile"}/>}/>
+                            <Route path='/profile/:userId?' render={() =>
+                                <ProfileContainer/>}/>
+                            <Route path='/dialogs' render={() =>
+                                <DialogsContainer/>}/>
+                            <Route path='/users' render={() => <UsersContainer/>}/>
+                            <Route path='/login' render={() => <LoginContainer/>}/>
+                            <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
+                        </Switch>
                     </Suspense>
                 </div>
             </div>
