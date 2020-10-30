@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Preloader from "../../common/Preloader/Preloader";
 import styles from "./ProfileInfo.module.css"
 import ProfileStatusHook from "../Status/ProfileStatusHook";
+import ProfileDataForm from "../../Users/UserContactForm";
+
 
 interface IProps {
     profile: any,
@@ -10,10 +12,13 @@ interface IProps {
     isAuth: Function,
     userInfo: any,
     isOwner: boolean,
-    savePhoto:Function;
+    savePhoto: Function;
+    saveProfile: Function;
 }
 
 const ProfileInfo = (props: IProps) => {
+
+    let [editMode, setEditMode] = useState(false);
     if (!props.profile) {
         return <div>
             <Preloader/>
@@ -22,10 +27,14 @@ const ProfileInfo = (props: IProps) => {
     let {profile} = props;
     let defaultPhoto = "https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png";
 
-    const onSavePhoto=(e:any)=>{
-        if (e.target.files.length>0){
+    const onSavePhoto = (e: any) => {
+        if (e.target.files.length > 0) {
             props.savePhoto(e.target.files[0]);
         }
+
+    }
+    const onSubmit = (formData: any) => {
+      props.saveProfile(formData).then(()=>setEditMode(false));
 
     }
     return (
@@ -45,29 +54,59 @@ const ProfileInfo = (props: IProps) => {
                     </div>
                     <ProfileStatusHook
                         status={props.status} updateUserStatus={props.updateUserStatus}/>
-
                     <h2 className={styles.nameUser}> {profile.fullName}</h2>
-                    <div className={styles.aboutMe}>
-                        <b>About Me:</b> {profile.aboutMe}
-                    </div>
-                    <div className={styles.contacts}>
+                    {editMode
+                        ? <ProfileDataForm profile={profile} onSubmit={onSubmit} initialValues={profile}/>
+                        : <ProfileData profile={profile} isOwner={props.isOwner}
+                                       goToEditeMode={() => setEditMode(true)}/>
+                    }
 
-                        {(!!profile.contacts) && Object.keys(profile.contacts).map((key, index) =>
-                            <div key={index}><b>{key}:</b><span>{profile.contacts[key]}</span>
-                            </div>)}
-                    </div>
-
-                    <div className={styles.lookingForAJob}>
-                        <b>lookingForAJob:</b> {String(profile.lookingForAJob)}
-                    </div>
-                    <div className={styles.lookingForAJobDescription}>
-                        <b>lookingForAJobDescription:</b> {profile.lookingForAJobDescription}
-                    </div>
                 </div>
                 :
                 <div><Preloader/></div>}
 
         </div>)
+}
+
+interface IData {
+    profile: any,
+    isOwner: boolean,
+    goToEditeMode: any
+}
+
+const ProfileData = ({profile, isOwner, goToEditeMode}: IData) => {
+    return <div>
+        {isOwner && <div>
+            <button onClick={goToEditeMode}>Edit</button>
+        </div>}
+        <div className={styles.aboutMe}>
+            <b>About Me:</b> {profile.aboutMe}
+        </div>
+        <div className={styles.contacts}>
+            <b>Contacts</b>:
+            {Object.keys(profile.contacts).map((key, index) =>
+                <Contact contactTitle={key} contactValue={profile.contacts[key]} key={key}/>)
+            }
+        </div>
+
+        <div className={styles.lookingForAJob}>
+            <b>lookingForAJob:</b> {profile.lookingForAJob ? "yes" : "no"}
+        </div>
+        {profile.lookingForAJob &&
+        <div className={styles.lookingForAJobDescription}>
+            <b>My professional skills:</b> {profile.lookingForAJobDescription}
+        </div>
+        }
+    </div>
+}
+
+interface IPropsContact {
+    contactTitle: string,
+    contactValue: string
+}
+
+const Contact = ({contactTitle, contactValue}: IPropsContact) => {
+    return <div className={styles.contact}><b>{contactTitle}</b>:{contactValue}</div>
 }
 
 

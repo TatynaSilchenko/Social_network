@@ -31,7 +31,7 @@ let sizePasswordWarning = (value: string) => {
 }
 
 let LoginForm = ({state, login, isAuth, ...props}: any) => {
-    let {status, message, captchaUrl, captchaRequired} = state;
+    let {status, captchaUrl} = state;
 
     let errorMessageBlock = status === statuses.ERROR &&
         <div className='error'>{props.error}</div>
@@ -50,7 +50,7 @@ let LoginForm = ({state, login, isAuth, ...props}: any) => {
                     name='rememberMe'/>remember me
         </div>
 
-        {captchaRequired && <>
+        {captchaUrl && <>
             <div><Field component={Input} type='text'
                         name='captchaValue' placeholder='Enter captcha'/>
             </div>

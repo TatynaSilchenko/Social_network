@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getUserInfo, getUserStatus, savePhoto, updateUserStatus} from "../../redux/profileReducer";
+import {getUserInfo, getUserStatus, savePhoto, saveProfile, updateUserStatus} from "../../redux/profileReducer";
 import {
     getAutorizedId,
     getIsAuthValue,
@@ -23,7 +23,8 @@ interface IProps extends RouteComponentProps<any> {
     isAuth:Function,
     userInfo:any,
     autorizedId:any,
-    savePhoto:Function
+    savePhoto:Function,
+    saveProfile:Function
 
 }
 
@@ -53,7 +54,7 @@ class ProfileContainer extends Component<IProps> {
         return (
             <Profile isOwner={!this.props.match.params.userId}
                      {...this.props} profile={this.props.profile}
-            savePhoto={this.props.savePhoto}/>
+            savePhoto={this.props.savePhoto} saveProfile={this.props.saveProfile}/>
         )
 
     }
@@ -72,5 +73,6 @@ let mapStateToProps = (state: any) => (
 export default compose (
     withAuthRedirect,
     withRouter,
-    connect(mapStateToProps, {getUserInfo,getUserStatus,updateUserStatus,savePhoto})
+    // eslint-disable-next-line no-undef
+    connect(mapStateToProps, {getUserInfo,getUserStatus,updateUserStatus,savePhoto,saveProfile})
 )(ProfileContainer)

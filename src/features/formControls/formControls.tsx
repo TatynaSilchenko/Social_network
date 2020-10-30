@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './formControl.module.css'
 
+
 export const  TextAria=(props:any)=>{
     const {input,meta,...restprops}=props
     const hasError=meta.touched&&meta.error
@@ -18,3 +19,4 @@ export let Input = ({input, meta:{touched,error,warning}, ...props}:any) => {
         {touched && warning && <span style={{color: 'orange'}}> {warning}</span>}
     </div>
 };
+

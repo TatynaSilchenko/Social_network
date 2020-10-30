@@ -11,12 +11,14 @@ interface IProps {
     isAuth:Function,
     userInfo:any,
     isOwner:boolean,
-    savePhoto:Function
+    savePhoto:Function,
+    saveProfile:Function
 }
 
 const Profile = (props: IProps) => {
     return <div>
-        <ProfileInfo {...props} profile={props.profile} isOwner={props.isOwner} savePhoto={props.savePhoto}/>
+        <ProfileInfo {...props} profile={props.profile} isOwner={props.isOwner}
+                     savePhoto={props.savePhoto} saveProfile={props.saveProfile}/>
         <MyPostsContainer/>
     </div>
 

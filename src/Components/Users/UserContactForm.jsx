@@ -1,8 +1,8 @@
 import React from "react";
-import {Field} from "redux-form";
-import styles from "./userform.module.css";
+import {Field, reduxForm} from "redux-form";
+import styles from "../Profile/ProfileInfo/ProfileInfo.module.css"
 
-let Input = ({input, meta, ...props}:any) => {
+let Input = ({input, meta, ...props}) => {
 
     return <div>
         <input {...input} type={props.type} {...props} />
@@ -10,12 +10,12 @@ let Input = ({input, meta, ...props}:any) => {
     </div>
 }
 
-let UserContactForm = (props:any) => {
+const ProfileDataForm = ({profile, error, ...props}) => {
+
     return <form onSubmit={props.handleSubmit}>
         <div className={styles.nameUser}>
             <b>Full name:</b>
-
-                <Field component={Input} type='text'
+            <Field component={Input} type='text'
                    name={'fullName'}/>
         </div>
         <div><b>About me:</b>
@@ -23,15 +23,16 @@ let UserContactForm = (props:any) => {
                    name={'aboutMe'}/>
         </div>
 
-        <div className={styles.contacts}>
-        {(!!props.profile.contacts) && Object.keys(props.profile.contacts).map((key) =>
-            <div><b>{key}:</b>
+        <div>
+            <b>Contacts</b>:
+            {profile && Object.keys(profile.contacts).map((key) =>
+                <div key={key} className={styles.contact}><b>{key}:</b>
 
-               <Field component={Input} type='text' key={key}
-                            name={`contacts.${key}`}/>
+                    <Field component={Input} type='text' key={key}
+                           name={`contacts.${key}`}/>
 
-            </div>)
-        }
+                </div>)
+            }
         </div>
 
         <div className={styles.lookingForAJob}>
@@ -40,13 +41,18 @@ let UserContactForm = (props:any) => {
                    name={'lookingForAJob'}/>
         </div>
         <div className={styles.lookingForAJobDescription}>
-            <b>lookingForAJobDescription:</b>
+            <b>My professional skills:</b>
             <Field component={Input} type='text'
                    name={'lookingForAJobDescription'}/>
         </div>
 
+        {error && <div className={styles.summaryError}>
+            {error}
+        </div>}
         <button type="submit"> Save</button>
     </form>
 
 }
-export default UserContactForm
+export default reduxForm({
+    form: 'user-form'
+})(ProfileDataForm)

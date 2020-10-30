@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "./user.module.css";
 import Preloader from "../common/Preloader/Preloader";
 import {reduxForm} from "redux-form";
-import UserContactForm from "./UserContactForm";
+import ProfileDataForm from "./UserContactForm";
 
 const User = (props:any) => {
 
@@ -68,6 +68,6 @@ const User = (props:any) => {
 }
 
 let UserReduxForm = reduxForm({
-    form: 'user-form'
-})(UserContactForm)
+    form: 'user1-form'
+})(ProfileDataForm)
 export default User;

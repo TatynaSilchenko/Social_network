@@ -13,9 +13,7 @@
     width: 100%;
 
 }
-/*.changePhoto{*/
-/*    padding-left:150px;*/
-/*}*/
+
 .descriptionBlock{
     display: grid;
     padding: 10px;
@@ -23,4 +21,12 @@
 }
 .userName{
     color:#27aae1;
+}
+.contact{
+    padding-left: 20px;
+}
+.summaryError{
+    color:red;
+    border: red 1px solid;
+    padding:2px;
 }

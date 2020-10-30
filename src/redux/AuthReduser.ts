@@ -1,4 +1,4 @@
-import {authAPI} from "../dal/apiSdk";
+import {authAPI, securityAPI} from "../dal/apiSdk";
 import {statuses} from "./statuses";
 import {stopSubmit} from "redux-form";
 
@@ -18,8 +18,8 @@ let initialState = {
         email: null
     },
     captchaRequired: false,
-    captchaUrl: 'https://www.google.by/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
-    captchaValue: '',
+    captchaUrl: null,
+    captchaValue: null, //if null then captcha is not requiried
     message: ''
 };
 
@@ -89,14 +89,18 @@ export const loginT = (email: string, password: string, rememberMe = false, capt
                     dispatch(setStatus(statuses.ERROR));
                     dispatch(setMessage(data.messages[0]));
                     dispatch(changeInputValue('captchaRequired', true));
-                    authAPI.getCaptcha()
-                        .then(data => {
-                            dispatch(changeInputValue('captchaUrl', data.url))
-                        })
+                    dispatch(getCaptchaUrl())
             }
 
         })
 };
+export const getCaptchaUrl=()=>async (dispatch: Function)=>{
+    securityAPI.getCaptcha()
+        .then(data => {
+            dispatch(changeInputValue('captchaUrl', data.url))
+        })
+}
+
 export const logOut = () => (dispatch: Function) => {
     authAPI.logOut()
         .then(data => {

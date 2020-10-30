@@ -1,5 +1,6 @@
 import {togleIsFetching} from "./usersReduser";
 import {profileAPI} from "../dal/apiSdk";
+import {stopSubmit} from "redux-form";
 
 
 const SET_USER_PROFILE = 'SN/PROFILEPAGE/SET_USER_PROFILE ';
@@ -95,6 +96,18 @@ export const savePhoto = (photo: any) => async (dispatch: Function) => {
 
 };
 
+export const saveProfile = (profile: any) => async (dispatch: Function, getState: Function) => {
+    const userID = getState().auth.userInfo.userId;
+    const response = await profileAPI.saveProfile(profile);
+    if (response.resultCode === 0) {
+        dispatch(getUserInfo(userID));
+    } else{
+        // dispatch(stopSubmit('user-form',{"contacts":{"facebook":response.messages[0]}}))
+        dispatch(stopSubmit('user-form',{_error:response.messages[0]}))
+        return Promise.reject(response.messages[0])
+
+}
+};
 export const setUserProfile = (profile: Object) => ({type: SET_USER_PROFILE, profile});
 export const setStatus = (status: string) => ({type: SET_STATUS, status});
 export const addPost = (postText: string) => ({type: ADD_POST, postText});
