@@ -74,18 +74,17 @@ export const getUserStatus = (userId: number) => (dispatch: Function) => {
             // dispatch(togleIsFetching(false));
         })
 };
-export const updateUserStatus = (status: string) => (dispatch: Function) => {
+export const updateUserStatus = (status: string) => async (dispatch: Function) => {
     // dispatch(togleIsFetching(true));
+try{
+    const data = await profileAPI.updateProfileStatus(status);
+    if (data.resultCode === 0) {
+        dispatch(setStatus(status));
+    }
+} catch (error) {
+    alert(error);
+}
 
-    profileAPI.updateProfileStatus(status)
-        .then((data) => {
-            if (data.resultCode === 0) {
-                dispatch(setStatus(status));
-            } else {
-                alert(data.messages)
-            }
-            // dispatch(togleIsFetching(false));
-        })
 };
 export const savePhoto = (photo: any) => async (dispatch: Function) => {
     const response = await profileAPI.savePhoto(photo);
@@ -101,12 +100,12 @@ export const saveProfile = (profile: any) => async (dispatch: Function, getState
     const response = await profileAPI.saveProfile(profile);
     if (response.resultCode === 0) {
         dispatch(getUserInfo(userID));
-    } else{
+    } else {
         // dispatch(stopSubmit('user-form',{"contacts":{"facebook":response.messages[0]}}))
-        dispatch(stopSubmit('user-form',{_error:response.messages[0]}))
+        dispatch(stopSubmit('user-form', {_error: response.messages[0]}))
         return Promise.reject(response.messages[0])
 
-}
+    }
 };
 export const setUserProfile = (profile: Object) => ({type: SET_USER_PROFILE, profile});
 export const setStatus = (status: string) => ({type: SET_STATUS, status});

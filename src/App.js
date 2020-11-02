@@ -17,13 +17,20 @@ const UsersContainer = React.lazy(() => import("./Components/Users/UsersConteine
 
 
 class App extends React.Component {
+    catchUnhadledErrors=(reason, promise)=>{
+        console.error(promise)
+    }
     componentDidMount() {
-        this.props.initializeApp()
+        this.props.initializeApp();
+        // window.addEventListener('unhandledrejection', this.catchUnhadledErrors);
+    }
+    componentWillUnmount() {
+        // window.removeEventListener('unhandledrejection', this.catchUnhadledErrors);
     }
 
     render() {
-
         if (!this.props.initialized) return <Preloader/>
+
         return (
             <div className={'app-wrapper'}>
                 <HeaderContainer/>
