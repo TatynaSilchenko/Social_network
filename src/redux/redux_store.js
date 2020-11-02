@@ -3,7 +3,6 @@ import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import sidebarReducer from "./sidebarReducer";
 import UsersReducer from "./usersReduser";
-import UserReducer from "./userReduser";
 import { reducer as formReducer } from 'redux-form'
 import StatusReducer from "./StatusReduser";
 import AuthReducer from "./AuthReduser";
@@ -18,7 +17,6 @@ let combinedReducers = combineReducers({
     sidebar: sidebarReducer,
     auth:AuthReducer,
     usersPage:UsersReducer,
-    userProfile:UserReducer,
     status:StatusReducer,
     form: formReducer,
     app:appReducer

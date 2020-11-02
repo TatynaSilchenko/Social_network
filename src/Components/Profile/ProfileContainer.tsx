@@ -45,7 +45,7 @@ class ProfileContainer extends Component<IProps> {
        this.refresh();
     }
     componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<{}>, snapshot?: any) {
-        if ( this.props.match.params.userId!= prevProps.match.params.userId){
+        if ( this.props.match.params.userId!== prevProps.match.params.userId){
             this.refresh();
         }
     }
@@ -73,6 +73,5 @@ let mapStateToProps = (state: any) => (
 export default compose (
     withAuthRedirect,
     withRouter,
-    // eslint-disable-next-line no-undef
     connect(mapStateToProps, {getUserInfo,getUserStatus,updateUserStatus,savePhoto,saveProfile})
 )(ProfileContainer)

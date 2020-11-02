@@ -15,7 +15,7 @@ let Paginator=({totalItemsCount,pageSize,onPagesChanged,currentPage, portionSize
     let leftPortionPageNumber=(portionNumber-1)*portionSize+1;
     let rightPortionPageNumber=portionNumber*portionSize;
 
-    return <div>
+    return <div className={styles.paginator}>
         {portionNumber>1&&<button onClick={()=>{setPortionNumber(portionNumber-1)}}>PREV</button>}
         {pages.filter(p=>p>=leftPortionPageNumber&&p<=rightPortionPageNumber)
             .map((p) => {
